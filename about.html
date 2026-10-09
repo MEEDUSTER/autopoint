@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoPoint — про сайт</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="page">
+    <header class="site-header">
+      <div class="brand">
+        <div class="mark">AP</div>
+        <div>
+          <h1 class="logo">Auto<span>Point</span></h1>
+          <small>Structure notes</small>
+        </div>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html">На головну</a></li>
+          <li><a class="active" href="about.html">Про сайт</a></li>
+          <li><a href="catalog.html">Каталог</a></li>
+          <li><a href="service.html">Обслуговування</a></li>
+          <li><a href="contacts.html">Контакти</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="idx">02 / ABOUT</div>
+        <h2>Файли</h2>
+        <ol>
+          <li>index.html</li>
+          <li>about.html</li>
+          <li>catalog.html</li>
+          <li>service.html</li>
+          <li>contacts.html</li>
+        </ol>
+        <div class="note">nav позначає зону переходів. Меню всередині — список посилань.</div>
+      </aside>
+
+      <main class="main">
+        <div class="panel">
+          <p class="kicker">Довільна структура</p>
+          <h2>П’ять файлів. Одне меню.</h2>
+          <p>Сайт статичний: кожна сторінка — окремий HTML, не запис у базі. Головний файл називається index.html, бо саме його сервер віддає з кореня.</p>
+          <p>З головної є вихід у всі розділи, а розділи посилаються один на одного. Це довільна схема з ієрархічним фрагментом.</p>
+          <p>Каркас зібраний div-блоками: шапка, бокова колонка, основний вміст, футер. Колонки стоять у ряд через flex. Без нього кожен div став би окремим рядком на всю ширину.</p>
+          <p><a href="catalog.html">Відкрити каталог →</a></p>
+        </div>
+      </main>
+    </div>
+
+    <footer class="site-footer">
+      <div>AUTOPOINT · ABOUT</div>
+      <div><a href="index.html">На головну</a></div>
+    </footer>
+  </div>
+</body>
+</html>
