@@ -1,3 +1,10 @@
+/* ==========================================================
+   AutoPoint — таблиця стилів
+   ЛР4 «Використання CSS на веб-сайті»: додано змінні, бонусне
+   меню, ефекти карток, клас .btn, стилі таблиць, :focus-visible,
+   адаптивність для вузьких екранів.
+   ========================================================== */
+
 :root {
   --bg: #0c0e11;
   --bg-2: #14181d;
@@ -7,6 +14,11 @@
   --gold: #d7a35a;
   --gold-2: #f0d7ad;
   --shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+  /* ЛР4: нові змінні */
+  --shadow-sm: 0 12px 30px rgba(0, 0, 0, 0.45);
+  --gold-soft: rgba(215, 163, 90, 0.18);
+  --radius: 12px;
+  --ease: 0.25s ease;
 }
 
 * { box-sizing: border-box; }
@@ -24,8 +36,20 @@ body {
 }
 
 img { max-width: 100%; display: block; }
-a { color: var(--gold-2); text-decoration: none; }
+a { color: var(--gold-2); text-decoration: none; transition: color var(--ease); }
 a:hover { color: #fff; }
+
+/* ЛР4: видима рамка фокусу для навігації з клавіатури (Tab) */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ЛР4: колір виділення тексту в стилі сайту */
+::selection { background: var(--gold); color: #1a1208; }
+
+p { margin: 0 0 12px; }
 
 .page {
   max-width: 1240px;
@@ -68,25 +92,48 @@ a:hover { color: #fff; }
 .logo span { color: var(--gold); }
 .brand small { display: block; color: var(--muted); letter-spacing: 2px; font-size: 10px; text-transform: uppercase; }
 
-nav ul {
+/* ---------- Бонус: спискове меню ---------- */
+/* Бонус: прибираємо маркери списку і стандартні відступи ul */
+.menu {
   list-style: none;
-  display: flex;
-  gap: 6px;
   margin: 0;
   padding: 0;
+  /* Бонус: вистроюємо пункти меню горизонтально в рядок */
+  display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-end;
+  gap: 6px;
 }
-nav a {
+.menu li { margin: 0; }
+.menu a {
+  display: block;               /* уся площа пункту клікабельна */
   color: var(--text);
-  padding: 8px 12px;
+  padding: 8px 14px;
   font-size: 14px;
   letter-spacing: 0.2px;
-  border-bottom: 1px solid transparent;
+  border-radius: 10px 10px 0 0;
+  border-bottom: 2px solid transparent;
+  background-color: transparent;
+  transition: background-color var(--ease), color var(--ease), border-color var(--ease);
 }
-nav a.active {
+/* Поточна сторінка (клас .active у HTML) */
+.menu a.active {
   color: var(--gold-2);
+  background-color: rgba(240, 215, 173, 0.06);
   border-bottom-color: var(--gold);
+}
+/* Бонус: реакція на наведення миші — фон стає напівпрозорим золотим */
+.menu a:hover {
+  color: #fff;
+  background-color: var(--gold-soft);
+  border-bottom-color: var(--gold);
+}
+/* Бонус: реакція на натискання — фон змінюється на суцільний золотий */
+.menu a:active {
+  color: #1a1208;
+  background-color: var(--gold);
+  border-bottom-color: var(--gold-2);
 }
 
 .layout {
@@ -119,7 +166,8 @@ nav a.active {
 }
 .sidebar ol { margin: 0; padding-left: 18px; color: var(--muted); }
 .sidebar li { margin: 10px 0; }
-.sidebar a { color: var(--text); }
+.sidebar a { color: var(--text); border-bottom: 1px dashed rgba(215, 163, 90, 0.45); }
+.sidebar a:hover { color: var(--gold-2); border-bottom-color: var(--gold); }
 .note {
   margin-top: 18px;
   padding-top: 14px;
@@ -135,7 +183,8 @@ nav a.active {
   min-height: 460px;
   border-radius: 22px;
   overflow: hidden;
-  background: #111 url("img/wheel.jpg") center/cover no-repeat;
+  /* ЛР4: виправлено шлях — url() рахується від папки css/ */
+  background: #111 url("../img/wheel.jpg") center/cover no-repeat;
   box-shadow: var(--shadow);
 }
 .hero::after {
@@ -201,17 +250,27 @@ h2 {
 }
 .car {
   flex: 1;
+  color: var(--text);
   background: var(--bg-2);
   border: 1px solid var(--line);
   border-radius: 18px;
   overflow: hidden;
   min-width: 0;
+  /* ЛР4: плавна анімація підйому картки */
+  transition: transform var(--ease), box-shadow var(--ease), border-color var(--ease);
 }
-.car img { height: 150px; width: 100%; object-fit: cover; }
+.car img { height: 150px; width: 100%; object-fit: cover; transition: transform 0.4s ease; }
 .car div { padding: 14px; }
 .car h4 { margin: 0 0 4px; font-size: 16px; }
 .car p { margin: 0; color: var(--muted); font-size: 14px; }
-.car:hover { border-color: rgba(215, 163, 90, 0.55); }
+/* ЛР4: при наведенні картка піднімається, з'являється тінь, фото збільшується */
+.car:hover {
+  color: var(--text);
+  border-color: rgba(215, 163, 90, 0.55);
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-sm);
+}
+.car:hover img { transform: scale(1.06); }
 
 .panel {
   background: rgba(20, 24, 29, 0.8);
@@ -220,11 +279,33 @@ h2 {
   padding: 28px;
 }
 .panel p { color: #ddd6cb; }
+/* ЛР4: підзаголовок-«кікер» у панелі знову золотий (раніше перекривався правилом .panel p) */
+.panel .kicker { color: var(--gold); }
 
 table { width: 100%; border-collapse: collapse; margin: 8px 0 18px; }
 th, td { text-align: left; padding: 12px 10px; border-bottom: 1px solid var(--line); }
 th { color: var(--gold-2); font-weight: 600; font-size: 13px; letter-spacing: 0.6px; text-transform: uppercase; }
 td { color: #efeae2; }
+
+/* ЛР4: таблиця каталогу — заголовок, «зебра», підсвічування рядка */
+.data-table {
+  margin-top: 22px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+}
+.data-table thead th { background: rgba(215, 163, 90, 0.12); border-bottom: 1px solid var(--gold); }
+.data-table tbody tr:nth-child(even) { background: rgba(255, 255, 255, 0.03); }
+.data-table tbody tr { transition: background-color var(--ease); }
+.data-table tbody tr:hover { background: var(--gold-soft); }
+.data-table tbody tr:last-child td { border-bottom: none; }
+.data-table td:first-child { font-weight: 600; color: var(--gold-2); }
+
+/* ЛР4: таблиця контактів — заголовки рядків вузькою колонкою */
+.info-table th { width: 140px; color: var(--muted); }
+.info-table tr:hover td { color: #fff; }
 
 .spec-list { display: flex; flex-direction: column; gap: 12px; }
 .spec {
@@ -235,13 +316,16 @@ td { color: #efeae2; }
   border-radius: 16px;
   overflow: hidden;
   background: #12161b;
+  transition: border-color var(--ease), background-color var(--ease);
 }
+/* ЛР4: підсвічування картки моделі */
+.spec:hover { border-color: rgba(215, 163, 90, 0.55); background: #161b21; }
 .spec img { width: 210px; height: 120px; object-fit: cover; flex: none; }
 .spec div { padding-right: 14px; }
 .spec h3 { margin: 0 0 4px; font-size: 20px; }
 .spec p { margin: 0; color: var(--muted); }
 
-.steps { counter-reset: step; display: flex; flex-direction: column; gap: 12px; }
+.steps { counter-reset: step; display: flex; flex-direction: column; gap: 12px; margin-bottom: 18px; }
 .step {
   display: flex;
   gap: 16px;
@@ -250,6 +334,9 @@ td { color: #efeae2; }
   background: #12161b;
   border: 1px solid var(--line);
 }
+.step h3 { margin: 0 0 4px; font-size: 18px; }
+.step p { margin: 0; color: var(--muted); }
+.step:hover { border-color: rgba(215, 163, 90, 0.4); }
 .step b {
   font-family: Georgia, serif;
   color: var(--gold);
@@ -258,22 +345,45 @@ td { color: #efeae2; }
 }
 
 form { display: flex; flex-direction: column; gap: 10px; max-width: 460px; }
+label { color: var(--muted); font-size: 13px; letter-spacing: 0.6px; }
 input, textarea, button {
   font: inherit;
-  border-radius: 12px;
+  border-radius: var(--radius);
   border: 1px solid var(--line);
   background: #0e1216;
   color: var(--text);
   padding: 12px 14px;
+  transition: border-color var(--ease), box-shadow var(--ease);
 }
-button {
+textarea { resize: vertical; }
+input::placeholder, textarea::placeholder { color: #6f685f; }
+/* ЛР4: підсвічування активного поля форми */
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px var(--gold-soft);
+}
+
+/* ЛР4: універсальний клас кнопки (для <a> і <button>) */
+.btn, button {
+  display: inline-block;
   width: fit-content;
+  padding: 12px 22px;
   background: var(--gold);
   color: #1a1208;
   border: none;
+  border-radius: 999px;
   font-weight: 700;
   cursor: pointer;
+  transition: background-color var(--ease), transform var(--ease), box-shadow var(--ease);
 }
+.btn:hover, button:hover {
+  background: var(--gold-2);
+  color: #1a1208;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(215, 163, 90, 0.3);
+}
+.btn:active, button:active { transform: translateY(0); box-shadow: none; }
 
 .site-footer {
   margin-top: 22px;
@@ -285,11 +395,41 @@ button {
   color: var(--muted);
   font-size: 13px;
   letter-spacing: 0.4px;
+  flex-wrap: wrap;
 }
+.site-footer a { color: var(--gold); }
+.site-footer a:hover { color: var(--gold-2); text-decoration: underline; }
 
+/* ---------- Адаптивність ---------- */
 @media (max-width: 900px) {
   .site-header, .layout, .fleet, .metrics, .spec { flex-direction: column; }
-  .sidebar { position: static; flex-basis: auto; }
+  .site-header { align-items: flex-start; }
+  .menu { justify-content: flex-start; }
+  .sidebar { position: static; flex-basis: auto; width: 100%; }
+  .spec { align-items: stretch; }
   .spec img { width: 100%; height: 180px; }
+  .spec div { padding: 0 14px 14px; }
   .hero { min-height: 380px; }
+}
+
+/* ЛР4: телефони (до 560px) */
+@media (max-width: 560px) {
+  .page { padding: 14px 12px 20px; }
+  .menu { gap: 4px; }
+  .menu a { padding: 7px 10px; font-size: 13px; }
+  .hero-copy { padding: 28px 20px; }
+  .lead { font-size: 16px; }
+  .metrics { flex-direction: row; gap: 10px; }
+  .metrics div { min-width: 0; }
+  .metrics b { font-size: 26px; }
+  .panel { padding: 20px 16px; }
+  th, td { padding: 10px 6px; font-size: 14px; }
+  .info-table th { width: 90px; }
+  .site-footer { flex-direction: column; }
+}
+
+/* ЛР4: для користувачів, які вимкнули анімації в ОС */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; }
+  html { scroll-behavior: auto; }
 }
