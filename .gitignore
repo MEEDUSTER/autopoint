@@ -1,0 +1,7 @@
+# Портативний PHP для Windows (завантажується окремо, див. start-php.bat)
+php/
+
+# Тимчасові файли SQLite
+db/*.sqlite-journal
+db/*.sqlite-wal
+db/*.sqlite-shm
