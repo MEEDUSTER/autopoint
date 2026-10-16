@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoPoint — JS-анімація</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/js-lab.css">
+</head>
+<body>
+  <div class="page">
+    <header class="site-header">
+      <div class="brand">
+        <div class="mark">AP</div>
+        <div>
+          <h1 class="logo">Auto<span>Point</span></h1>
+          <small>JavaScript garage</small>
+        </div>
+      </div>
+      <nav class="main-nav">
+        <ul class="menu">
+          <li><a href="index.html">На головну</a></li>
+          <li><a href="about.html">Про сайт</a></li>
+          <li><a href="catalog.html">Каталог</a></li>
+          <li><a href="service.html">Обслуговування</a></li>
+          <li><a href="contacts.html">Контакти</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="js-main">
+      <div class="panel">
+        <p class="kicker">ЛР5 · JavaScript</p>
+        <h2>Траса в русі.</h2>
+        <p>Три автомобілі їдуть по своїх смугах, колесо обертається, світлофор перемикається. Усім керують кнопки нижче.</p>
+
+        <div class="controls" id="controls">
+          <button id="btnStart" type="button">▶ Старт</button>
+          <button id="btnPause" type="button" class="btn-ghost">⏸ Пауза</button>
+          <button id="btnReset" type="button" class="btn-ghost">⟲ Скинути</button>
+          <button id="btnSlower" type="button" class="btn-ghost">− Повільніше</button>
+          <button id="btnFaster" type="button" class="btn-ghost">+ Швидше</button>
+          <button id="btnWheel" type="button" class="btn-ghost">Сховати колесо</button>
+        </div>
+
+        <div class="dash">
+          <div class="dash-item"><span>Стан</span><b id="status">Зупинено</b></div>
+          <div class="dash-item"><span>Швидкість</span><b id="speed">×1.0</b></div>
+          <div class="dash-item"><span>Пробіг</span><b id="distance">0 м</b></div>
+          <div class="dash-item"><span>Світлофор</span><b id="lightName">—</b></div>
+        </div>
+
+        <div class="stage">
+          <div class="road" id="road">
+            <div class="lane-line" style="top: 33.3%"></div>
+            <div class="lane-line" style="top: 66.6%"></div>
+          </div>
+          <div class="side">
+            <div class="wheel-box" id="wheelBox">
+              <img id="wheel" src="img/wheel.jpg" alt="Колесо, що обертається">
+            </div>
+            <div class="traffic" id="traffic">
+              <span class="lamp" data-color="red"></span>
+              <span class="lamp" data-color="yellow"></span>
+              <span class="lamp" data-color="green"></span>
+            </div>
+          </div>
+        </div>
+
+        <ul class="log" id="log"></ul>
+        <p class="hint">Підказка: клавіша «Пробіл» теж запускає і ставить анімацію на паузу. Бонус — <a href="game.html">міні-гра «Нічна траса»</a>.</p>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div>AUTOPOINT · JS ANIMATION</div>
+      <div><a href="game.html">Далі — міні-гра</a></div>
+    </footer>
+  </div>
+  <script src="js/animation.js"></script>
+</body>
+</html>

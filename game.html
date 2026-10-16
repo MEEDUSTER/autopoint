@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoPoint — міні-гра «Нічна траса»</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/js-lab.css">
+</head>
+<body>
+  <div class="page">
+    <header class="site-header">
+      <div class="brand">
+        <div class="mark">AP</div>
+        <div>
+          <h1 class="logo">Auto<span>Point</span></h1>
+          <small>Night highway</small>
+        </div>
+      </div>
+      <nav class="main-nav">
+        <ul class="menu">
+          <li><a href="index.html">На головну</a></li>
+          <li><a href="about.html">Про сайт</a></li>
+          <li><a href="catalog.html">Каталог</a></li>
+          <li><a href="service.html">Обслуговування</a></li>
+          <li><a href="contacts.html">Контакти</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="js-main">
+      <div class="panel game-panel">
+        <div class="game-info">
+          <p class="kicker">Бонус · міні-гра</p>
+          <h2>Нічна траса.</h2>
+          <p>Ведіть золоте авто між смугами й об’їжджайте зустрічні машини та конуси. Кожна об’їхана перешкода дає очки, а швидкість поступово зростає.</p>
+          <div class="dash">
+            <div class="dash-item"><span>Рахунок</span><b id="score">0</b></div>
+            <div class="dash-item"><span>Рекорд</span><b id="record">0</b></div>
+            <div class="dash-item"><span>Швидкість</span><b id="gameSpeed">1.0</b></div>
+          </div>
+          <div class="controls">
+            <button id="btnPlay" type="button">▶ Почати</button>
+            <button id="btnGamePause" type="button" class="btn-ghost">⏸ Пауза</button>
+            <button id="btnRestart" type="button" class="btn-ghost">⟲ Заново</button>
+          </div>
+          <p class="hint">Керування: стрілки ← → або A / D, пауза — P, нова гра — Enter. На телефоні — кнопки під трасою.</p>
+          <p class="hint"><a href="animation.html">← Повернутися до JS-анімації</a></p>
+        </div>
+        <div class="game-box">
+          <canvas id="game" width="360" height="540" aria-label="Ігрове поле"></canvas>
+          <div class="touch">
+            <button id="btnLeft" type="button" class="btn-ghost" aria-label="Ліворуч">◀</button>
+            <button id="btnRight" type="button" class="btn-ghost" aria-label="Праворуч">▶</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div>AUTOPOINT · MINI GAME</div>
+      <div><a href="index.html">На головну</a></div>
+    </footer>
+  </div>
+  <script src="js/game.js"></script>
+</body>
+</html>
