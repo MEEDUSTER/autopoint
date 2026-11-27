@@ -1,6 +1,6 @@
 <?php
 /**
- * AutoPoint — ЛР6: загальні функції (безпека, анкета, файли, сесія, шаблони).
+ * AutoPoint — ЛР6–ЛР7: загальні функції (безпека, анкета, файли, сесія, шаблони, JSON).
  */
 
 declare(strict_types=1);
@@ -212,6 +212,59 @@ function save_survey_file(array $data, int $time): string
     return $fileName;
 }
 
+/**
+ * ЛР7: повна обробка надісланої анкети — валідація, CSRF, файл у survey/, запис у БД.
+ * Використовується і звичайною формою (survey.php), і AJAX-обробником (survey_ajax.php).
+ * Повертає масив: ok, status (HTTP-код), errors, data, time, file, db.
+ */
+function process_survey(array $post): array
+{
+    [$data, $errors] = validate_survey($post);
+
+    $csrfOk = csrf_valid(is_string($post['csrf'] ?? null) ? $post['csrf'] : null);
+    if (!$csrfOk) {
+        $errors['form'] = 'Сторінка застаріла, надішліть форму ще раз.';
+    }
+    if ($errors) {
+        return ['ok' => false, 'status' => $csrfOk ? 422 : 403, 'errors' => $errors, 'data' => $data];
+    }
+
+    $time = time();                                       // момент заповнення
+    $data['submitted_at'] = date('Y-m-d H:i:s', $time);
+    $file = save_survey_file($data, $time);               // файл у папці survey
+
+    $savedToDb = true;
+    try {
+        db_insert_response($data, $file);                 // запис у базу даних SQLite
+    } catch (Throwable $e) {
+        $savedToDb = false;
+        error_log('DB error: ' . $e->getMessage());
+    }
+
+    return ['ok' => true, 'status' => 200, 'errors' => [], 'data' => $data,
+            'time' => $time, 'file' => $file, 'db' => $savedToDb];
+}
+
+/** ЛР7: відповіді анкети у вигляді «питання — відповідь» для JSON. */
+function survey_answers_list(array $answers): array
+{
+    $list = [];
+    foreach (QUESTIONS as $key => $q) {
+        $list[] = ['question' => $q['label'], 'answer' => answer_label($key, $answers[$key] ?? '')];
+    }
+    return $list;
+}
+
+/** ЛР7: надсилає відповідь у форматі JSON і завершує скрипт. */
+function json_response(array $payload, int $status = 200): never
+{
+    http_response_code($status);
+    header('Content-Type: application/json; charset=utf-8');
+    header('Cache-Control: no-store');
+    echo json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    exit;
+}
+
 /** Видаляє файл анкети лише всередині папки survey (захист від ../). */
 function delete_survey_file(string $fileName): bool
 {
@@ -260,7 +313,7 @@ function render_question(string $key, array $q, array $old, array $errors): stri
 {
     $err = isset($errors[$key]) ? '<p class="field-error">' . h($errors[$key]) . '</p>' : '';
     $value = $old['answers'][$key] ?? ($q['type'] === 'checkbox' ? [] : '');
-    $html = '<fieldset class="question' . ($err ? ' has-error' : '') . '">';
+    $html = '<fieldset class="question' . ($err ? ' has-error' : '') . '" data-field="' . h($key) . '">';
     $html .= '<legend>' . h($q['label']) . '</legend>';
 
     switch ($q['type']) {

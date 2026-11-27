@@ -1,0 +1,43 @@
+/* AutoPoint — ЛР7: стилі AJAX-сторінок (jokes.html, api.html) */
+
+.ajax-main { margin-top: 22px; flex: 1; }
+.joke-card {
+  margin: 18px 0 14px;
+  padding: 26px 28px;
+  min-height: 120px;
+  border: 1px solid rgba(215, 163, 90, 0.45);
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(215, 163, 90, 0.12), #12161b 60%);
+  font-size: 21px;
+  line-height: 1.5;
+  color: #fff;
+  position: relative;
+}
+.joke-card::before {
+  content: "“";
+  position: absolute;
+  left: 10px; top: -14px;
+  font-size: 64px;
+  color: var(--gold);
+  opacity: 0.6;
+}
+.joke-in { animation: jokeIn 0.45s ease; }
+@keyframes jokeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.joke-meta { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+.joke-counter { color: var(--muted); font-size: 14px; }
+.ajax-status { color: var(--muted); font-size: 14px; margin: 10px 0 0; }
+.ajax-status.is-error, .panel .ajax-status.is-error { color: #ff8f8f; }
+.btn[disabled], button[disabled] { opacity: 0.6; cursor: wait; }
+
+/* ---- api.html ---- */
+.api-toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 16px 0 10px; }
+.api-toolbar .btn-ghost { background: transparent; color: var(--gold-2); border: 1px solid rgba(215, 163, 90, 0.55); }
+.api-toolbar .btn-ghost:hover, .api-toolbar .btn-ghost.is-active { background: var(--gold-soft); color: #fff; }
+.api-info { color: var(--muted); font-size: 14px; margin: 0 0 8px; }
+.api-table th.sortable { cursor: pointer; user-select: none; }
+.api-table th.sortable:hover { color: #fff; }
+.api-table th .arrow { color: var(--gold); margin-left: 4px; }
+.api-table td.error-cell { color: #ff8f8f; text-align: center; padding: 22px; }
+.api-table td.loading-cell { color: var(--muted); text-align: center; padding: 22px; }
+.table-wrap { overflow-x: auto; border-radius: 14px; }
+.hint { font-size: 14px; color: var(--muted); }

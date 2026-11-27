@@ -1,7 +1,8 @@
 <?php
 /**
- * AutoPoint — ЛР6: сторінка опитування «Яке авто обирають студенти».
- * Форма надсилається методом POST на цю ж сторінку.
+ * AutoPoint — ЛР6–ЛР7: сторінка опитування «Яке авто обирають студенти».
+ * ЛР7: з увімкненим JavaScript форма надсилається через XMLHttpRequest (js/survey-ajax.js → survey_ajax.php)
+ * без перезавантаження сторінки; без JavaScript — звичайним POST на цю ж сторінку.
  */
 
 declare(strict_types=1);
@@ -15,36 +16,22 @@ $old = [];
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    [$old, $errors] = validate_survey($_POST);
+    // Звичайне надсилання форми (без JavaScript). З JavaScript форма йде через AJAX у survey_ajax.php.
+    $res = process_survey($_POST);
+    $old = $res['data'];
+    $errors = $res['errors'];
 
-    if (!csrf_valid($_POST['csrf'] ?? null)) {
-        $errors['form'] = 'Сторінка застаріла, надішліть форму ще раз.';
-    }
-
-    if (!$errors) {
-        $time = time();                                   // момент заповнення
-        $old['submitted_at'] = date('Y-m-d H:i:s', $time);
-
-        $file = save_survey_file($old, $time);            // основне завдання: файл у папці survey
-
-        $savedToDb = true;
-        try {
-            db_insert_response($old, $file);              // бонус: запис у базу даних
-        } catch (Throwable $e) {
-            $savedToDb = false;
-            error_log('DB error: ' . $e->getMessage());
-        }
-
+    if ($res['ok']) {
         $_SESSION['last_survey'] = [
-            'time'    => $time,
+            'time'    => $res['time'],
             'name'    => $old['name'],
             'answers' => $old['answers'],
-            'file'    => $file,
-            'db'      => $savedToDb,
+            'file'    => $res['file'],
+            'db'      => $res['db'],
         ];
         redirect('survey.php?done=1');                    // POST → Redirect → GET
     }
-    http_response_code(422);
+    http_response_code($res['status']);
 }
 
 $result = isset($_GET['done']) ? ($_SESSION['last_survey'] ?? null) : null;
@@ -52,7 +39,8 @@ $result = isset($_GET['done']) ? ($_SESSION['last_survey'] ?? null) : null;
 $pageTitle   = 'опитування';
 $brandSub    = 'Student car survey';
 $extraCss    = ['css/survey.css'];
-$footerLabel = 'SURVEY · PHP';
+$footerLabel = 'SURVEY · PHP · AJAX';
+$extraJs     = ['js/survey-ajax.js'];
 
 include __DIR__ . '/templates/header.php';
 ?>
@@ -61,7 +49,7 @@ include __DIR__ . '/templates/header.php';
 
       <main class="main">
         <div class="panel">
-          <p class="kicker">ЛР6 · PHP · метод POST</p>
+          <p class="kicker">ЛР6–ЛР7 · PHP · POST через AJAX</p>
           <h2><?= h(SURVEY_TITLE) ?>.</h2>
 <?php if ($result): ?>
           <div class="alert alert-success">
@@ -80,6 +68,7 @@ include __DIR__ . '/templates/header.php';
           <p><a class="btn" href="survey.php">Заповнити ще одну анкету</a></p>
 <?php else: ?>
           <p>Допоможіть зібрати статистику для AutoPoint: яке авто студенти вважають оптимальним як перше. Поля з * обов’язкові. Дані зберігаються лише для навчального проєкту.</p>
+          <div id="surveyResult" hidden></div>
 <?php require __DIR__ . '/templates/survey_form.php'; ?>
 <?php endif; ?>
         </div>

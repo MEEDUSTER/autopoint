@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoPoint — жарти (AJAX)</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/ajax.css">
+</head>
+<body>
+  <div class="page">
+    <header class="site-header">
+      <div class="brand">
+        <div class="mark">AP</div>
+        <div>
+          <h1 class="logo">Auto<span>Point</span></h1>
+          <small>AJAX joke desk</small>
+        </div>
+      </div>
+      <nav class="main-nav">
+        <ul class="menu">
+          <li><a href="index.html">На головну</a></li>
+          <li><a href="about.html">Про сайт</a></li>
+          <li><a href="catalog.html">Каталог</a></li>
+          <li><a href="service.html">Обслуговування</a></li>
+          <li><a href="contacts.html">Контакти</a></li>
+        </ul>
+      </nav>
+    </header>
+
+
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="idx">07 / AJAX</div>
+        <h2>Жарти з гаража</h2>
+        <ol>
+          <li>Сторінка робить AJAX-запит до файлу jokes.txt</li>
+          <li>З отриманого тексту обирається випадковий жарт</li>
+          <li>«Ще жарт» — новий запит без перезавантаження</li>
+        </ol>
+        <div class="note">Запит виконує об’єкт <code>XMLHttpRequest</code>: <code>open()</code> → <code>onreadystatechange</code> → <code>send()</code>.</div>
+        <div class="note">ЛР7 · <a href="api.html">динамічна таблиця (jQuery)</a> · <a href="survey.php">AJAX-анкета</a> (PHP) · <a href="index.html">на сайт</a></div>
+      </aside>
+
+      <main class="main">
+        <div class="panel">
+          <p class="kicker">ЛР7 · AJAX · XMLHttpRequest</p>
+          <h2>Жарт про авто й студентів.</h2>
+          <p>Жарти зберігаються у текстовому файлі <a href="jokes.txt"><code>jokes.txt</code></a> (один жарт — один рядок). Сторінка завантажує файл у фоновому режимі та показує випадковий жарт; той самий жарт двічі поспіль не повторюється.</p>
+
+          <div class="joke-card" id="joke" aria-live="polite">Завантаження жарту…</div>
+
+          <div class="joke-meta">
+            <button class="btn" id="btnJoke" type="button">Ще жарт</button>
+            <span class="joke-counter" id="jokeCounter"></span>
+          </div>
+          <p class="ajax-status" id="jokeStatus"></p>
+        </div>
+      </main>
+    </div>
+
+    <footer class="site-footer">
+      <div>AUTOPOINT · AJAX · XMLHttpRequest</div>
+      <div><a href="api.html">Далі — таблиця з API</a></div>
+    </footer>
+  </div>
+  <script src="js/jokes.js"></script>
+</body>
+</html>

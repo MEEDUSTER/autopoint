@@ -19,6 +19,7 @@ if not exist "php\php.ini" (
 )
 
 echo AutoPoint: http://localhost:8000/survey.php   (адмін-панель: http://localhost:8000/admin.php)
+echo ЛР7: http://localhost:8000/jokes.html   http://localhost:8000/api.html
 echo Щоб зупинити сервер, закрийте це вікно або натисніть Ctrl+C.
 start "" cmd /c "timeout /t 2 >nul & start http://localhost:8000/survey.php"
 php\php.exe %PHP_ARGS% -S localhost:8000 -t . router.php
