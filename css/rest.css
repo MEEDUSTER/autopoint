@@ -1,0 +1,20 @@
+/* AutoPoint — ЛР8: стилі сторінок rest.php і preview.php */
+
+.req-info { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; margin: 14px 0 18px; font-size: 14px; }
+.req-info dt { color: var(--muted); }
+.req-info dd { margin: 0; color: var(--text); word-break: break-all; }
+.req-info code { font-size: 13px; }
+.status-ok { color: #7bd88f; font-weight: 600; }
+.status-bad { color: #ff8f8f; font-weight: 600; }
+.rest-table { font-size: 13px; margin-top: 0; }
+.rest-table th, .rest-table td { padding: 10px 8px; }
+.rest-table th { font-size: 11px; letter-spacing: 0.3px; }
+.rest-table td { vertical-align: top; }
+.rest-table td:first-child { color: var(--muted); font-weight: 400; }
+.rest-table .muted { color: var(--muted); }
+.rest-table code.nested { font-size: 12px; word-break: break-word; }
+.groups { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 14px; padding: 0; list-style: none; }
+.groups li { padding: 4px 12px; border: 1px solid var(--line); border-radius: 999px; font-size: 13px; color: var(--muted); }
+details.raw { margin-top: 16px; }
+details.raw pre { max-height: 360px; overflow: auto; padding: 14px; border-radius: 12px; background: #0e1216; border: 1px solid var(--line); font-size: 12px; }
+.alert-error .hint, .alert-error p { color: #ffd0d0; }

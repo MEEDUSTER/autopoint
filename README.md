@@ -26,6 +26,11 @@
 | api.html, js/api.js, api_proxy.php | ЛР7 (бонус): динамічна таблиця з API lab.vntu.org через jQuery, оновлення і сортування |
 | js/jquery.min.js | jQuery 3.7.1 (локальна копія, без CDN) |
 | css/ajax.css | Стилі сторінок ЛР7 |
+| rest.php, inc/rest.php | ЛР8: дані JSON з REST API lab.vntu.org (curl_exec / file_get_contents, json_decode, одна таблиця) |
+| inc/http.php | ЛР8: функція http_get() — GET-запит через curl або file_get_contents з тайм-аутом |
+| json.php | ЛР8 (бонус): анкети ЛР6 у форматі JSON (парсинг файлів survey/*.json, `?source=db` — з SQLite) |
+| preview.php | ЛР8 (бонус): отримує JSON з json.php по HTTP і виводить HTML-таблицю |
+| templates/sidebar_lab8.php, css/rest.css | ЛР8: бокова панель і стилі |
 
 Посилання відносні, зовнішніх CDN немає, тому переходи працюють офлайн.
 
@@ -46,3 +51,13 @@ php -S localhost:8000 -t . router.php
 - `survey.php` — з увімкненим JavaScript форма надсилається через XMLHttpRequest у `survey_ajax.php` (JSON), без JavaScript — звичайним POST.
 - `api.html` — таблиця з даними `http://lab.vntu.org/api-server/lab7.php` (jQuery). На PHP-сервері запит іде через `api_proxy.php`;
   на GitHub Pages (HTTPS) браузер не дозволяє звертатися до HTTP-API, тому повноцінно сторінка працює локально через `start-php.bat`.
+
+## ЛР8 — REST API і JSON
+
+- `rest.php` — GET-запит до `http://lab.vntu.org/api-server/lab8.php?user=student&pass=p%40ssw0rd`, `json_decode()` в об’єкти,
+  усі записи про людей з усіх вкладених масивів — в один масив і в HTML-таблицю. Якщо API не відповідає — повідомлення з кодом помилки.
+- `json.php` — усі анкети ЛР6 у JSON (масив, кожна анкета — окремий елемент). Містить особисті дані (ім’я, email),
+  тому відповідає лише на запити з цього ж комп’ютера (127.0.0.1 / ::1) і не публікується на GitHub Pages (PHP там не виконується).
+- `preview.php` — отримує JSON з `json.php` по HTTP і будує таблицю. Вбудований сервер PHP обробляє один запит одночасно,
+  тому `start-php.bat` запускає другий екземпляр на `127.0.0.1:8001`, до якого звертається preview.php.
+  Вручну: `php -S 127.0.0.1:8001 -t . router.php` в окремому вікні та `php -S localhost:8000 -t . router.php`.
