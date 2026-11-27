@@ -148,7 +148,7 @@ $(function () {
       })
       .fail(function (xhr, textStatus) {
         // Проксі немає (статичний хостинг: 404 або PHP-файл не виконується) — пробуємо напряму
-        var noProxy = src.proxy && !xhr.responseJSON && (xhr.status === 404 || xhr.status === 405 || textStatus === 'parseerror');
+        var noProxy = src.proxy && !xhr.responseJSON && (xhr.status === 404 || xhr.status === 405 || textStatus === 'parsererror');
         if (noProxy && index + 1 < list.length) {
           tryLoad(list, index + 1);
           return;
